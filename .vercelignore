@@ -1,0 +1,25 @@
+# Backend, Docker, tests, docs — none of it belongs in the static
+# Vercel deploy (Vercel only serves what's under static/).
+.git
+.github
+.idea
+.vscode
+.DS_Store
+__pycache__
+*.pyc
+.venv
+venv
+neuropharm
+tests
+app.py
+Dockerfile
+start.sh
+.dockerignore
+DEPLOY.md
+CONTRIBUTING.md
+SECURITY.md
+README.md
+drugbank_full.db
+drugbank_full.db.zip
+*.sqlite
+*.sqlite3

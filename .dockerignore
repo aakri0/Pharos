@@ -1,0 +1,24 @@
+.git
+.gitignore
+.github
+.idea
+.vscode
+.DS_Store
+__pycache__
+*.pyc
+.venv
+venv
+tests
+DEPLOY.md
+CONTRIBUTING.md
+SECURITY.md
+README.md
+# Never ship the DB inside the image — it's pulled from the private HF
+# Dataset at container start instead.
+drugbank_full.db
+drugbank_full.db.zip
+drugbank_demo.db
+*.sqlite
+*.sqlite3
+# Per-deployment frontend config doesn't belong in the backend image.
+static/config.js

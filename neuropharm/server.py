@@ -28,12 +28,56 @@ from .risk import (
 from .text import clean_text, compact
 
 
+# ---------------------------------------------------------------------------
+# Deployment knobs (all optional — unset = current local-dev behaviour)
+# ---------------------------------------------------------------------------
+# When set, every /api/* request must carry an X-API-Key header that matches.
+# Lets a public-internet backend stay quiet for casual scrapers without
+# adding any real auth infrastructure.
+_API_KEY = os.environ.get("PHAROS_API_KEY", "").strip()
+# CORS Access-Control-Allow-Origin value. Default "" means no CORS headers
+# emitted (same-origin only). Use "*" for fully open or a specific URL for
+# locked-down cross-origin (Vercel frontend → HF Space backend).
+_ALLOWED_ORIGIN = os.environ.get("PHAROS_ALLOWED_ORIGIN", "").strip()
+
+
 class NeuroPharmHandler(BaseHTTPRequestHandler):
     server_version = "NeuroPharmDB/1.1"
+
+    # ---- shared CORS / auth helpers --------------------------------------
+
+    def _emit_cors_headers(self) -> None:
+        if not _ALLOWED_ORIGIN:
+            return
+        self.send_header("Access-Control-Allow-Origin", _ALLOWED_ORIGIN)
+        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-API-Key")
+        self.send_header("Access-Control-Max-Age", "86400")
+        # If the browser cached an Origin-less response, make sure it
+        # doesn't reuse it when the Origin header changes.
+        self.send_header("Vary", "Origin")
+
+    def _api_key_ok(self) -> bool:
+        if not _API_KEY:
+            return True
+        return self.headers.get("X-API-Key", "") == _API_KEY
+
+    def do_OPTIONS(self) -> None:  # noqa: N802 — required name
+        self.send_response(204)
+        self._emit_cors_headers()
+        self.send_header("Content-Length", "0")
+        self.end_headers()
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
         path = unquote(parsed.path)
+
+        # API-key gate on every /api/* path. The index page and static assets
+        # are always public so the page can load (and prompt the browser for
+        # the key via window.PHAROS_API_KEY before making API calls).
+        if path.startswith("/api/") and not self._api_key_ok():
+            self.send_json({"error": "unauthorized"}, status=401)
+            return
 
         try:
             if path == "/":
@@ -101,6 +145,7 @@ class NeuroPharmHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(html_doc)))
+        self._emit_cors_headers()
         self.end_headers()
         self.wfile.write(html_doc)
 
@@ -116,6 +161,7 @@ class NeuroPharmHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", mime_type)
         self.send_header("Cache-Control", "no-store")
         self.send_header("Content-Length", str(len(content)))
+        self._emit_cors_headers()
         self.end_headers()
         self.wfile.write(content)
 
@@ -124,6 +170,7 @@ class NeuroPharmHandler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
+        self._emit_cors_headers()
         self.end_headers()
         self.wfile.write(body)
 
@@ -1190,6 +1237,13 @@ def main() -> None:
         raise SystemExit(f"Database not found: {DB_PATH}")
 
     port = int(os.environ.get("PORT", "8000"))
-    server = ThreadingHTTPServer(("127.0.0.1", port), NeuroPharmHandler)
-    print(f"NeuroPharmDB running at http://127.0.0.1:{port}")
+    # Default to loopback for local dev safety. Containers should set
+    # PHAROS_HOST=0.0.0.0 so the orchestrator can reach the port.
+    host = os.environ.get("PHAROS_HOST", "127.0.0.1")
+    server = ThreadingHTTPServer((host, port), NeuroPharmHandler)
+    print(f"NeuroPharmDB running at http://{host}:{port}")
+    if _API_KEY:
+        print("  API-key auth: ENABLED (X-API-Key header required on /api/*)")
+    if _ALLOWED_ORIGIN:
+        print(f"  CORS Access-Control-Allow-Origin: {_ALLOWED_ORIGIN}")
     server.serve_forever()

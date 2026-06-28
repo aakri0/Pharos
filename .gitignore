@@ -27,6 +27,9 @@ drugbank_full.db.zip
 .env
 .env.local
 secrets.json
+# Per-deployment frontend config (Vercel → HF Space URL + API key).
+# Use static/config.example.js as the template, copy to config.js for prod.
+static/config.js
 
 # Build / logs
 build/

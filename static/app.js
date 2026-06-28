@@ -142,8 +142,18 @@ function showReaderModal(item) {
   document.body.appendChild(modal);
 }
 
+// In production the static frontend on Vercel and the backend on a separate
+// host need a couple of env-style knobs. config.js (loaded before app.js
+// from index.html) can set these globals; otherwise we default to
+// same-origin relative paths so local dev works unchanged.
+const API_BASE = (typeof window !== "undefined" && window.PHAROS_API_BASE) || "";
+const API_KEY = (typeof window !== "undefined" && window.PHAROS_API_KEY) || "";
+
 async function api(path) {
-  const response = await fetch(path);
+  const url = API_BASE ? `${API_BASE.replace(/\/$/, "")}${path}` : path;
+  const headers = {};
+  if (API_KEY) headers["X-API-Key"] = API_KEY;
+  const response = await fetch(url, { headers });
   if (!response.ok) throw new Error(`Request failed: ${response.status}`);
   return response.json();
 }

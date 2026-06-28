@@ -207,6 +207,10 @@
       </main>
     </div>
 
+    <!-- Optional deployment config (sets window.PHAROS_API_BASE and
+         window.PHAROS_API_KEY for the Vercel→HF Space production setup).
+         Absent on local dev; the 404 is silently ignored. -->
+    <script src="/static/config.js"></script>
     <script src="/static/app.js"></script>
   </body>
 </html>
