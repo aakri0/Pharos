@@ -75,18 +75,67 @@
             </div>
           </div>
 
+          <!-- How it works — the actual differentiator, made visible at first sight. -->
+          <section class="pipeline glass" aria-label="How a RAG question is processed">
+            <h2 class="pipeline-title">How a question becomes a cited answer</h2>
+            <ol class="pipeline-steps">
+              <li class="pipeline-step">
+                <span class="pipeline-num">1</span>
+                <div class="pipeline-body">
+                  <h4>Tokenize &amp; stem</h4>
+                  <p>Lowercase + Porter stemmer — <code>metabolize / metabolic / metabolism</code> all collapse to <code>metabol</code>.</p>
+                </div>
+              </li>
+              <li class="pipeline-arrow" aria-hidden="true">→</li>
+              <li class="pipeline-step">
+                <span class="pipeline-num">2</span>
+                <div class="pipeline-body">
+                  <h4>Expand vocabulary</h4>
+                  <p>~175-entry lexicon bridges lay terms — <em>blood thinner</em> → <em>anticoagulant</em>, <em>sleepy</em> → <em>sedation</em>.</p>
+                </div>
+              </li>
+              <li class="pipeline-arrow" aria-hidden="true">→</li>
+              <li class="pipeline-step">
+                <span class="pipeline-num">3</span>
+                <div class="pipeline-body">
+                  <h4>Detect intent</h4>
+                  <p>Spot pair-interaction, adverse-event, or CYP cues and inject the matching field boosts into BM25.</p>
+                </div>
+              </li>
+              <li class="pipeline-arrow" aria-hidden="true">→</li>
+              <li class="pipeline-step">
+                <span class="pipeline-num">4</span>
+                <div class="pipeline-body">
+                  <h4>BM25 retrieve</h4>
+                  <p>Score every DrugBank chunk for the selected drugs. Pair-intent guarantees the right chunk surfaces.</p>
+                </div>
+              </li>
+              <li class="pipeline-arrow" aria-hidden="true">→</li>
+              <li class="pipeline-step">
+                <span class="pipeline-num">5</span>
+                <div class="pipeline-body">
+                  <h4>Cited answer</h4>
+                  <p>Best-overlap sentence per chunk becomes a citation — never a hallucinated paraphrase.</p>
+                </div>
+              </li>
+            </ol>
+          </section>
+
           <div class="feature-grid">
             <a class="feature-card glass" href="#/check">
+              <span class="feature-icon" aria-hidden="true">⚗️</span>
               <h3>Check interactions</h3>
               <p>Pick two or more drugs and audit every pair. Patient-context risk score with explainable evidence for bleeding, kidney, liver, pregnancy, and more.</p>
               <span class="feature-cta">Go to checker &rarr;</span>
             </a>
             <a class="feature-card glass" href="#/rag">
+              <span class="feature-icon" aria-hidden="true">✨</span>
               <h3>Ask the RAG assistant</h3>
               <p>Type a natural-language question &mdash; Porter stemming, ~175-entry synonym expansion, intent detection, BM25 retrieval, cited extractive answer.</p>
               <span class="feature-cta">Open RAG &rarr;</span>
             </a>
             <a class="feature-card glass" href="#/browse">
+              <span class="feature-icon" aria-hidden="true">📚</span>
               <h3>Browse the database</h3>
               <p>Search by name or synonym, open a drug profile, filter its interaction table, or jump to alternative-drug suggestions.</p>
               <span class="feature-cta">Browse drugs &rarr;</span>
@@ -369,6 +418,27 @@
           </section>
         </section>
       </main>
+
+      <footer class="site-footer">
+        <div class="footer-row">
+          <div class="footer-brand">
+            <span class="footer-mark">🔬</span>
+            <span>
+              <strong>Pharos</strong> &middot; local-first drug interactions with cited evidence
+            </span>
+          </div>
+          <div class="footer-links">
+            <a href="https://github.com/aakri0/Pharos" target="_blank" rel="noopener">GitHub ↗</a>
+            <a href="#/about">About</a>
+            <span class="footer-badge" title="No external APIs, no model downloads">100% local</span>
+            <span class="footer-badge" title="MIT licensed source code">MIT</span>
+          </div>
+        </div>
+        <p class="footer-disclaimer">
+          Research and educational decision-support tool. Not a medical device, not medical advice.
+          DrugBank content under separate license &mdash; not redistributed by this project.
+        </p>
+      </footer>
     </div>
 
     <!-- Optional deployment config (sets window.PHAROS_API_BASE and
