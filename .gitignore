@@ -31,7 +31,15 @@ secrets.json
 # Use static/config.example.js as the template, copy to config.js for prod.
 static/config.js
 
+# Deployment notes — kept locally only because they reference the
+# private HF Dataset, the API-key generation step, and the Space-side
+# Secrets layout. Never check into a public remote.
+DEPLOY.md
+deploy_notes.md
+deploy/
+
 # Build / logs
 build/
 dist/
 *.log
+.vercel
