@@ -1,0 +1,304 @@
+Running 268 queries across 30 drug combos...
+  [  1/268]
+  [ 25/268]
+  [ 50/268]
+  [ 75/268]
+  [100/268]
+  [125/268]
+  [150/268]
+  [175/268]
+  [200/268]
+  [225/268]
+  [250/268]
+  [268/268]
+CAT           OK    COMBO                   QUERY                                                     TOP CITATION
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+pair          PASS  anticoag_nsaid          What happens if I take the two of these together?         Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          Are these safe to take together?                          Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          What interactions exist between these drugs?              Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          Is it dangerous to mix these?                             Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  triple_bleeding         Can I take all three at once?                             Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          Should I be worried about combining them?                 Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          Any concerns when used concurrently?                      Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          Do these drugs interact?                                  Apixaban + Ibuprofen (Pair interaction) rel=1.0
+bleeding      PASS  anticoag_nsaid          Will this cause bleeding?                                 Apixaban + Ibuprofen (Pair interaction) rel=1.0
+bleeding      PASS  anticoag_nsaid          Is bleeding risk a concern?                               Apixaban + Ibuprofen (Pair interaction) rel=1.0
+bleeding      PASS  triple_bleeding         INR monitoring needed?                                    Warfarin (Pharmacodynamics) rel=1.0
+bleeding      PASS  anticoag_nsaid          Risk of internal bleeding?                                Apixaban + Ibuprofen (Pair interaction) rel=1.0
+food          PASS  anticoag_nsaid          Any food or alcohol I should avoid?                       Ibuprofen (Food interaction) rel=1.0
+food          PASS  anticoag_nsaid          Should I take this with food?                             Apixaban (Food interaction) rel=1.0
+food          PASS  anticoag_nsaid          Can I drink alcohol with these?                           Ibuprofen (Food interaction) rel=1.0
+food          PASS  single_warfarin         Does grapefruit interact?                                 Warfarin (Food interaction) rel=1.0
+food          PASS  anticoag_nsaid          Best to take on an empty stomach?                         Apixaban + Ibuprofen (Pair interaction) rel=1.0
+food          PASS  single_warfarin         Any dietary restrictions?                                 Warfarin (Food interaction) rel=1.0
+pregnancy     PASS  single_warfarin         Is this safe in pregnancy?                                Warfarin (Toxicity) rel=1.0
+pregnancy     PASS  single_warfarin         Will this harm the baby?                                  Warfarin (Toxicity) rel=1.0
+pregnancy     PASS  single_warfarin         Teratogenic risks?                                        Warfarin (Toxicity) rel=1.0
+pregnancy     PASS  anticoag_nsaid          Safe while breastfeeding?                                 Apixaban (Toxicity) rel=1.0
+pregnancy     PASS  single_warfarin         I'm pregnant — should I stop this?                        Warfarin (Toxicity) rel=1.0
+metabolism    PASS  anticoag_nsaid          What CYP enzymes are involved?                            Ibuprofen (Metabolism) rel=1.0
+metabolism    PASS  anticoag_nsaid          How is this metabolized?                                  Ibuprofen (Metabolism) rel=1.0
+metabolism    PASS  anticoag_nsaid          Liver enzymes that process this drug?                     Ibuprofen (Metabolism) rel=1.0
+metabolism    PASS  anticoag_nsaid          CYP3A4 interactions?                                      Apixaban + Ibuprofen (Pair interaction) rel=1.0
+halflife      PASS  anticoag_nsaid          What is the half life of these drugs?                     Apixaban (Half-life) rel=1.0
+halflife      PASS  anticoag_nsaid          How long do these drugs stay in the body?                 Ibuprofen (Elimination) rel=1.0
+halflife      PASS  anticoag_nsaid          Duration of action?                                       Ibuprofen (Half-life) rel=1.0
+halflife      PASS  anticoag_nsaid          How quickly does this clear?                              Ibuprofen (Elimination) rel=1.0
+renal         PASS  anticoag_nsaid          Will my kidneys be affected?                              Apixaban (Elimination) rel=1.0
+renal         PASS  anticoag_nsaid          Renal dose adjustment needed?                             Apixaban (Toxicity) rel=1.0
+renal         PASS  anticoag_nsaid          Is this safe with kidney disease?                         Apixaban (Toxicity) rel=1.0
+renal         PASS  anticoag_nsaid          I have kidney problems — is this OK?                      Ibuprofen (Elimination) rel=1.0
+hepatic       PASS  anticoag_nsaid          Liver effects?                                            Apixaban (Toxicity) rel=1.0
+hepatic       PASS  anticoag_nsaid          Hepatic impairment dosing?                                Apixaban (Toxicity) rel=1.0
+hepatic       PASS  statin_pair             Is this hepatotoxic?                                      Simvastatin (Mechanism) rel=1.0
+adverse       PASS  anticoag_nsaid          Tell me about side effects                                Ibuprofen (Toxicity) rel=1.0
+adverse       PASS  anticoag_nsaid          What are the adverse reactions?                           Apixaban (Toxicity) rel=1.0
+adverse       PASS  anticoag_nsaid          Common toxicities?                                        Ibuprofen (Toxicity) rel=1.0
+adverse       PASS  anticoag_nsaid          What's the overdose presentation?                         Ibuprofen (Toxicity) rel=1.0
+mechanism     PASS  single_warfarin         How does this drug work?                                  Warfarin (Pharmacodynamics) rel=1.0
+mechanism     PASS  single_warfarin         What's the mechanism of action?                           Warfarin (Mechanism) rel=1.0
+mechanism     PASS  ssri_pair               What receptors does this target?                          Sertraline (Mechanism) rel=1.0
+indication    PASS  single_warfarin         What is this drug used for?                               Warfarin (Indication) rel=1.0
+indication    PASS  single_metformin        What does this treat?                                     Metformin (Indication) rel=1.0
+indication    PASS  single_metformin        Why would someone be prescribed this?                     Metformin (Indication) rel=1.0
+diabetes      PASS  single_metformin        I'm a diabetic — is this safe?                            Metformin (Indication) rel=1.0
+diabetes      PASS  statin_pair             Will this raise my blood sugar?                           Atorvastatin (Pharmacodynamics) rel=1.0
+cardiac       PASS  single_lisinopril       Will this affect my blood pressure?                       Lisinopril (Toxicity) rel=1.0
+edge          PASS  single_warfarin         I'm pregnant                                              Warfarin (Toxicity) rel=1.0
+edge          PASS  anticoag_nsaid          I have kidney problems                                    Apixaban (Elimination) rel=1.0
+edge          PASS  single_warfarin         Tell me everything                                        Warfarin (Indication) rel=1.0
+edge          PASS  single_warfarin         Is this OK to take?                                       Warfarin (Mechanism) rel=1.0
+indication    PASS  single_warfarin         What is this drug used for?                               Warfarin (Indication) rel=1.0
+indication    PASS  single_warfarin         What does this treat?                                     Warfarin (Indication) rel=1.0
+mechanism     PASS  single_warfarin         How does this drug work?                                  Warfarin (Pharmacodynamics) rel=1.0
+adverse       PASS  single_warfarin         What are the side effects?                                Warfarin (Toxicity) rel=1.0
+metabolism    PASS  single_warfarin         How is this metabolized?                                  Warfarin (Metabolism) rel=1.0
+halflife      PASS  single_warfarin         How long does this stay in the body?                      Warfarin (Half-life) rel=1.0
+indication    PASS  single_apixaban         What is this drug used for?                               Apixaban (Toxicity) rel=1.0
+indication    PASS  single_apixaban         What does this treat?                                     Apixaban (Indication) rel=1.0
+mechanism     PASS  single_apixaban         How does this drug work?                                  Apixaban (Mechanism) rel=1.0
+adverse       PASS  single_apixaban         What are the side effects?                                Apixaban (Toxicity) rel=1.0
+metabolism    PASS  single_apixaban         How is this metabolized?                                  Apixaban (Metabolism) rel=1.0
+halflife      PASS  single_apixaban         How long does this stay in the body?                      Apixaban (Half-life) rel=1.0
+indication    PASS  single_ibuprofen        What is this drug used for?                               Ibuprofen (Indication) rel=1.0
+indication    PASS  single_ibuprofen        What does this treat?                                     Ibuprofen (Indication) rel=1.0
+mechanism     PASS  single_ibuprofen        How does this drug work?                                  Ibuprofen (Mechanism) rel=1.0
+adverse       PASS  single_ibuprofen        What are the side effects?                                Ibuprofen (Toxicity) rel=1.0
+metabolism    PASS  single_ibuprofen        How is this metabolized?                                  Ibuprofen (Metabolism) rel=1.0
+halflife      PASS  single_ibuprofen        How long does this stay in the body?                      Ibuprofen (Elimination) rel=1.0
+indication    PASS  single_metformin        What is this drug used for?                               Metformin (Indication) rel=1.0
+indication    PASS  single_metformin        What does this treat?                                     Metformin (Indication) rel=1.0
+mechanism     PASS  single_metformin        How does this drug work?                                  Metformin (Mechanism) rel=1.0
+adverse       PASS  single_metformin        What are the side effects?                                Metformin (Toxicity) rel=1.0
+metabolism    PASS  single_metformin        How is this metabolized?                                  Metformin (Metabolism) rel=1.0
+halflife      PASS  single_metformin        How long does this stay in the body?                      Metformin (Half-life) rel=1.0
+indication    PASS  single_lisinopril       What is this drug used for?                               Lisinopril (Indication) rel=1.0
+indication    PASS  single_lisinopril       What does this treat?                                     Lisinopril (Indication) rel=1.0
+mechanism     PASS  single_lisinopril       How does this drug work?                                  Lisinopril (Mechanism) rel=1.0
+adverse       PASS  single_lisinopril       What are the side effects?                                Lisinopril (Toxicity) rel=1.0
+metabolism    PASS  single_lisinopril       How is this metabolized?                                  Lisinopril (Metabolism) rel=1.0
+halflife      PASS  single_lisinopril       How long does this stay in the body?                      Lisinopril (Pharmacodynamics) rel=1.0
+indication    PASS  single_simvastatin      What is this drug used for?                               Simvastatin (Indication) rel=1.0
+indication    PASS  single_simvastatin      What does this treat?                                     Simvastatin (Indication) rel=1.0
+mechanism     PASS  single_simvastatin      How does this drug work?                                  Simvastatin (Mechanism) rel=1.0
+adverse       PASS  single_simvastatin      What are the side effects?                                Simvastatin (Food interaction) rel=1.0
+metabolism    PASS  single_simvastatin      How is this metabolized?                                  Simvastatin (Metabolism) rel=1.0
+halflife      PASS  single_simvastatin      How long does this stay in the body?                      Simvastatin (Half-life) rel=1.0
+indication    PASS  single_atorvastatin     What is this drug used for?                               Atorvastatin (Indication) rel=1.0
+indication    PASS  single_atorvastatin     What does this treat?                                     Atorvastatin (Indication) rel=1.0
+mechanism     PASS  single_atorvastatin     How does this drug work?                                  Atorvastatin (Mechanism) rel=1.0
+adverse       PASS  single_atorvastatin     What are the side effects?                                Atorvastatin (Toxicity) rel=1.0
+metabolism    PASS  single_atorvastatin     How is this metabolized?                                  Atorvastatin (Metabolism) rel=1.0
+halflife      PASS  single_atorvastatin     How long does this stay in the body?                      Atorvastatin (Half-life) rel=1.0
+indication    PASS  single_fluoxetine       What is this drug used for?                               Fluoxetine (Indication) rel=1.0
+indication    PASS  single_fluoxetine       What does this treat?                                     Fluoxetine (Indication) rel=1.0
+mechanism     PASS  single_fluoxetine       How does this drug work?                                  Fluoxetine (Mechanism) rel=1.0
+adverse       PASS  single_fluoxetine       What are the side effects?                                Fluoxetine (Toxicity) rel=1.0
+metabolism    PASS  single_fluoxetine       How is this metabolized?                                  Fluoxetine (Metabolism) rel=1.0
+halflife      PASS  single_fluoxetine       How long does this stay in the body?                      Fluoxetine (Half-life) rel=1.0
+indication    PASS  single_sertraline       What is this drug used for?                               Sertraline (Indication) rel=1.0
+indication    PASS  single_sertraline       What does this treat?                                     Sertraline (Indication) rel=1.0
+mechanism     PASS  single_sertraline       How does this drug work?                                  Sertraline (Pharmacodynamics) rel=1.0
+adverse       PASS  single_sertraline       What are the side effects?                                Sertraline (Toxicity) rel=1.0
+metabolism    PASS  single_sertraline       How is this metabolized?                                  Sertraline (Metabolism) rel=1.0
+halflife      PASS  single_sertraline       How long does this stay in the body?                      Sertraline (Half-life) rel=1.0
+indication    PASS  single_omeprazole       What is this drug used for?                               Omeprazole (Indication) rel=1.0
+indication    PASS  single_omeprazole       What does this treat?                                     Omeprazole (Indication) rel=1.0
+mechanism     PASS  single_omeprazole       How does this drug work?                                  Omeprazole (Pharmacodynamics) rel=1.0
+adverse       PASS  single_omeprazole       What are the side effects?                                Omeprazole (Toxicity) rel=1.0
+metabolism    PASS  single_omeprazole       How is this metabolized?                                  Omeprazole (Metabolism) rel=1.0
+halflife      PASS  single_omeprazole       How long does this stay in the body?                      Omeprazole (Elimination) rel=1.0
+indication    PASS  single_morphine         What is this drug used for?                               Morphine (Indication) rel=1.0
+indication    PASS  single_morphine         What does this treat?                                     Morphine (Toxicity) rel=1.0
+mechanism     PASS  single_morphine         How does this drug work?                                  Morphine (Mechanism) rel=1.0
+adverse       PASS  single_morphine         What are the side effects?                                Morphine (Toxicity) rel=1.0
+metabolism    PASS  single_morphine         How is this metabolized?                                  Morphine (Metabolism) rel=1.0
+halflife      PASS  single_morphine         How long does this stay in the body?                      Morphine (Half-life) rel=1.0
+indication    PASS  single_amiodarone       What is this drug used for?                               Amiodarone (Description) rel=1.0
+indication    PASS  single_amiodarone       What does this treat?                                     Amiodarone (Indication) rel=1.0
+mechanism     PASS  single_amiodarone       How does this drug work?                                  Amiodarone (Mechanism) rel=1.0
+adverse       PASS  single_amiodarone       What are the side effects?                                Amiodarone (Toxicity) rel=1.0
+metabolism    PASS  single_amiodarone       How is this metabolized?                                  Amiodarone (Metabolism) rel=1.0
+halflife      PASS  single_amiodarone       How long does this stay in the body?                      Amiodarone (Half-life) rel=1.0
+indication    PASS  single_phenytoin        What is this drug used for?                               Phenytoin (Indication) rel=1.0
+indication    PASS  single_phenytoin        What does this treat?                                     Phenytoin (Indication) rel=1.0
+mechanism     PASS  single_phenytoin        How does this drug work?                                  Phenytoin (Mechanism) rel=1.0
+adverse       PASS  single_phenytoin        What are the side effects?                                Phenytoin (Toxicity) rel=1.0
+metabolism    PASS  single_phenytoin        How is this metabolized?                                  Phenytoin (Metabolism) rel=1.0
+halflife      PASS  single_phenytoin        How long does this stay in the body?                      Phenytoin (Food interaction) rel=1.0
+indication    PASS  single_levothyroxine    What is this drug used for?                               Levothyroxine (Description) rel=1.0
+indication    PASS  single_levothyroxine    What does this treat?                                     Levothyroxine (Indication) rel=1.0
+mechanism     PASS  single_levothyroxine    How does this drug work?                                  Levothyroxine (Mechanism) rel=1.0
+adverse       PASS  single_levothyroxine    What are the side effects?                                Levothyroxine (Toxicity) rel=1.0
+metabolism    PASS  single_levothyroxine    How is this metabolized?                                  Levothyroxine (Metabolism) rel=1.0
+halflife      PASS  single_levothyroxine    How long does this stay in the body?                      Levothyroxine (Elimination) rel=1.0
+indication    PASS  single_ciprofloxacin    What is this drug used for?                               Ciprofloxacin (Indication) rel=1.0
+indication    PASS  single_ciprofloxacin    What does this treat?                                     Ciprofloxacin (Indication) rel=1.0
+mechanism     PASS  single_ciprofloxacin    How does this drug work?                                  Ciprofloxacin (Pharmacodynamics) rel=1.0
+adverse       PASS  single_ciprofloxacin    What are the side effects?                                Ciprofloxacin (Toxicity) rel=1.0
+metabolism    PASS  single_ciprofloxacin    How is this metabolized?                                  Ciprofloxacin (Metabolism) rel=1.0
+halflife      PASS  single_ciprofloxacin    How long does this stay in the body?                      Ciprofloxacin (Half-life) rel=1.0
+indication    PASS  single_acetaminophen    What is this drug used for?                               Acetaminophen (Indication) rel=1.0
+indication    PASS  single_acetaminophen    What does this treat?                                     Acetaminophen (Indication) rel=1.0
+mechanism     PASS  single_acetaminophen    How does this drug work?                                  Acetaminophen (Pharmacodynamics) rel=1.0
+adverse       PASS  single_acetaminophen    What are the side effects?                                Acetaminophen (Toxicity) rel=1.0
+metabolism    PASS  single_acetaminophen    How is this metabolized?                                  Acetaminophen (Metabolism) rel=1.0
+halflife      PASS  single_acetaminophen    How long does this stay in the body?                      Acetaminophen (Elimination) rel=1.0
+indication    PASS  single_clopidogrel      What is this drug used for?                               Clopidogrel (Pharmacodynamics) rel=1.0
+indication    PASS  single_clopidogrel      What does this treat?                                     Clopidogrel (Indication) rel=1.0
+mechanism     PASS  single_clopidogrel      How does this drug work?                                  Clopidogrel (Pharmacodynamics) rel=1.0
+adverse       PASS  single_clopidogrel      What are the side effects?                                Clopidogrel (Toxicity) rel=1.0
+metabolism    PASS  single_clopidogrel      How is this metabolized?                                  Clopidogrel (Metabolism) rel=1.0
+halflife      PASS  single_clopidogrel      How long does this stay in the body?                      Clopidogrel (Half-life) rel=1.0
+indication    PASS  single_methotrexate     What is this drug used for?                               Methotrexate (Indication) rel=1.0
+indication    PASS  single_methotrexate     What does this treat?                                     Methotrexate (Indication) rel=1.0
+mechanism     PASS  single_methotrexate     How does this drug work?                                  Methotrexate (Mechanism) rel=1.0
+adverse       PASS  single_methotrexate     What are the side effects?                                Methotrexate (Toxicity) rel=1.0
+metabolism    PASS  single_methotrexate     How is this metabolized?                                  Methotrexate (Metabolism) rel=1.0
+halflife      PASS  single_methotrexate     How long does this stay in the body?                      Methotrexate (Absorption) rel=1.0
+pair          PASS  anticoag_nsaid          What happens if I take these together?                    Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          Are these safe to take together?                          Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          Do these drugs interact?                                  Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          Should I be worried about combining them?                 Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  anticoag_nsaid          Any concerns when used concurrently?                      Apixaban + Ibuprofen (Pair interaction) rel=1.0
+food          PASS  anticoag_nsaid          Any food or alcohol I should avoid?                       Ibuprofen (Food interaction) rel=1.0
+pair          PASS  triple_bleeding         What happens if I take these together?                    Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  triple_bleeding         Are these safe to take together?                          Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  triple_bleeding         Do these drugs interact?                                  Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  triple_bleeding         Should I be worried about combining them?                 Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  triple_bleeding         Any concerns when used concurrently?                      Apixaban + Ibuprofen (Pair interaction) rel=1.0
+food          PASS  triple_bleeding         Any food or alcohol I should avoid?                       Ibuprofen (Food interaction) rel=1.0
+pair          PASS  statin_pair             What happens if I take these together?                    Atorvastatin + Simvastatin (Pair interaction) rel=1.0
+pair          PASS  statin_pair             Are these safe to take together?                          Atorvastatin + Simvastatin (Pair interaction) rel=1.0
+pair          PASS  statin_pair             Do these drugs interact?                                  Atorvastatin + Simvastatin (Pair interaction) rel=1.0
+pair          PASS  statin_pair             Should I be worried about combining them?                 Atorvastatin + Simvastatin (Pair interaction) rel=1.0
+pair          PASS  statin_pair             Any concerns when used concurrently?                      Atorvastatin + Simvastatin (Pair interaction) rel=1.0
+food          PASS  statin_pair             Any food or alcohol I should avoid?                       Simvastatin (Food interaction) rel=1.0
+pair          PASS  ssri_pair               What happens if I take these together?                    Sertraline + Fluoxetine (Pair interaction) rel=1.0
+pair          PASS  ssri_pair               Are these safe to take together?                          Sertraline + Fluoxetine (Pair interaction) rel=1.0
+pair          PASS  ssri_pair               Do these drugs interact?                                  Sertraline + Fluoxetine (Pair interaction) rel=1.0
+pair          PASS  ssri_pair               Should I be worried about combining them?                 Sertraline + Fluoxetine (Pair interaction) rel=1.0
+pair          PASS  ssri_pair               Any concerns when used concurrently?                      Sertraline + Fluoxetine (Pair interaction) rel=1.0
+food          PASS  ssri_pair               Any food or alcohol I should avoid?                       Fluoxetine (Food interaction) rel=1.0
+pair          PASS  warfarin_amio           What happens if I take these together?                    Amiodarone + Warfarin (Pair interaction) rel=1.0
+pair          PASS  warfarin_amio           Are these safe to take together?                          Amiodarone + Warfarin (Pair interaction) rel=1.0
+pair          PASS  warfarin_amio           Do these drugs interact?                                  Amiodarone + Warfarin (Pair interaction) rel=1.0
+pair          PASS  warfarin_amio           Should I be worried about combining them?                 Amiodarone + Warfarin (Pair interaction) rel=1.0
+pair          PASS  warfarin_amio           Any concerns when used concurrently?                      Amiodarone + Warfarin (Pair interaction) rel=1.0
+food          PASS  warfarin_amio           Any food or alcohol I should avoid?                       Warfarin (Food interaction) rel=1.0
+pair          PASS  clopi_omep              What happens if I take these together?                    Clopidogrel + Omeprazole (Pair interaction) rel=1.0
+pair          PASS  clopi_omep              Are these safe to take together?                          Clopidogrel + Omeprazole (Pair interaction) rel=1.0
+pair          PASS  clopi_omep              Do these drugs interact?                                  Clopidogrel + Omeprazole (Pair interaction) rel=1.0
+pair          PASS  clopi_omep              Should I be worried about combining them?                 Clopidogrel + Omeprazole (Pair interaction) rel=1.0
+pair          PASS  clopi_omep              Any concerns when used concurrently?                      Clopidogrel + Omeprazole (Pair interaction) rel=1.0
+food          PASS  clopi_omep              Any food or alcohol I should avoid?                       Clopidogrel (Food interaction) rel=1.0
+pair          PASS  morphine_diazepam       What happens if I take these together?                    Diazepam + Morphine (Pair interaction) rel=1.0
+pair          PASS  morphine_diazepam       Are these safe to take together?                          Diazepam + Morphine (Pair interaction) rel=1.0
+pair          PASS  morphine_diazepam       Do these drugs interact?                                  Diazepam + Morphine (Pair interaction) rel=1.0
+pair          PASS  morphine_diazepam       Should I be worried about combining them?                 Diazepam + Morphine (Pair interaction) rel=1.0
+pair          PASS  morphine_diazepam       Any concerns when used concurrently?                      Diazepam + Morphine (Pair interaction) rel=1.0
+food          PASS  morphine_diazepam       Any food or alcohol I should avoid?                       Diazepam (Food interaction) rel=1.0
+pair          PASS  ssri_nsaid              What happens if I take these together?                    Ibuprofen + Fluoxetine (Pair interaction) rel=1.0
+pair          PASS  ssri_nsaid              Are these safe to take together?                          Ibuprofen + Fluoxetine (Pair interaction) rel=1.0
+pair          PASS  ssri_nsaid              Do these drugs interact?                                  Ibuprofen + Fluoxetine (Pair interaction) rel=1.0
+pair          PASS  ssri_nsaid              Should I be worried about combining them?                 Ibuprofen + Fluoxetine (Pair interaction) rel=1.0
+pair          PASS  ssri_nsaid              Any concerns when used concurrently?                      Ibuprofen + Fluoxetine (Pair interaction) rel=1.0
+food          PASS  ssri_nsaid              Any food or alcohol I should avoid?                       Fluoxetine (Food interaction) rel=1.0
+food          PASS  ace_diuretic            Any food or alcohol I should avoid?                       Hydrochlorothiazide (Food interaction) rel=1.0
+food          PASS  triple_cardiac          Any food or alcohol I should avoid?                       Hydrochlorothiazide (Food interaction) rel=1.0
+pair          PASS  polypharm5              What happens if I take these together?                    Lisinopril + Metformin (Pair interaction) rel=1.0
+pair          PASS  polypharm5              Are these safe to take together?                          Lisinopril + Metformin (Pair interaction) rel=1.0
+pair          PASS  polypharm5              Do these drugs interact?                                  Atorvastatin + Warfarin (Pair interaction) rel=1.0
+pair          PASS  polypharm5              Should I be worried about combining them?                 Atorvastatin + Warfarin (Pair interaction) rel=1.0
+pair          PASS  polypharm5              Any concerns when used concurrently?                      Atorvastatin + Warfarin (Pair interaction) rel=1.0
+food          PASS  polypharm5              Any food or alcohol I should avoid?                       Metformin (Food interaction) rel=1.0
+pair          PASS  geriatric_polypharm     What happens if I take these together?                    Diazepam + Morphine (Pair interaction) rel=1.0
+pair          PASS  geriatric_polypharm     Are these safe to take together?                          Diazepam + Morphine (Pair interaction) rel=1.0
+pair          PASS  geriatric_polypharm     Do these drugs interact?                                  Diazepam + Omeprazole (Pair interaction) rel=1.0
+pair          PASS  geriatric_polypharm     Should I be worried about combining them?                 Diazepam + Omeprazole (Pair interaction) rel=1.0
+pair          PASS  geriatric_polypharm     Any concerns when used concurrently?                      Diazepam + Omeprazole (Pair interaction) rel=1.0
+food          PASS  geriatric_polypharm     Any food or alcohol I should avoid?                       Diazepam (Food interaction) rel=1.0
+bleeding      PASS  warfarin_amio           Will this combination cause bleeding?                     Amiodarone + Warfarin (Pair interaction) rel=1.0
+bleeding      PASS  ssri_nsaid              Bleeding risk together?                                   Ibuprofen + Fluoxetine (Pair interaction) rel=1.0
+bleeding      PASS  triple_bleeding         GI bleed concern?                                         Apixaban + Ibuprofen (Pair interaction) rel=1.0
+bleeding      PASS  clopi_omep              Are these antiplatelets safe with PPIs?                   Omeprazole (Indication) rel=1.0
+cardiac       PASS  single_amiodarone       Will this affect heart rhythm?                            Amiodarone (Mechanism) rel=1.0
+cardiac       PASS  single_ciprofloxacin    Is QT prolongation a concern?                             Ciprofloxacin (Description) rel=1.0
+cardiac       PASS  single_lisinopril       How does this lower blood pressure?                       Lisinopril (Toxicity) rel=1.0
+respiratory   PASS  morphine_diazepam       Risk of respiratory depression?                           Morphine (Toxicity) rel=1.0
+serotonin     PASS  ssri_pair               Risk of serotonin syndrome?                               Sertraline (Toxicity) rel=1.0
+metabolism    PASS  single_simvastatin      CYP3A4 interactions?                                      Simvastatin (Metabolism) rel=1.0
+metabolism    PASS  single_fluoxetine       Strong CYP2D6 substrates?                                 Fluoxetine (Metabolism) rel=1.0
+metabolism    PASS  single_phenytoin        Does this induce or inhibit liver enzymes?                Phenytoin (Metabolism) rel=1.0
+pregnancy     PASS  single_warfarin         Risk category in pregnancy?                               Warfarin (Toxicity) rel=1.0
+pregnancy     PASS  single_methotrexate     Is this contraindicated in pregnancy?                     Methotrexate (Absorption) rel=1.0
+pair          PASS  polypharm5              Are all five of these safe together?                      Lisinopril + Metformin (Pair interaction) rel=1.0
+pair          PASS  geriatric_polypharm     Any high-risk combinations in this list?                  Diazepam + Morphine (Pair interaction) rel=1.0
+adverse       PASS  single_acetaminophen    Is overdose dangerous?                                    Acetaminophen (Toxicity) rel=1.0
+food          PASS  single_amiodarone       Does grapefruit interfere?                                Amiodarone (Food interaction) rel=1.0
+renal         PASS  single_apixaban         Renal clearance?                                          Apixaban (Elimination) rel=1.0
+hepatic       PASS  single_acetaminophen    Hepatotoxicity risk?                                      Acetaminophen (Food interaction) rel=1.0
+adverse       PASS  single_simvastatin      Risk of myopathy?                                         Simvastatin (Absorption) rel=1.0
+metabolism    PASS  single_clopidogrel      Is this a prodrug?                                        Clopidogrel (Metabolism) rel=1.0
+indication    PASS  single_levothyroxine    Used for what condition?                                  Levothyroxine (Description) rel=1.0
+indication    PASS  single_ciprofloxacin    What infections does this treat?                          Ciprofloxacin (Indication) rel=1.0
+food          PASS  single_ciprofloxacin    Effect of dairy or calcium?                               Ciprofloxacin (Food interaction) rel=1.0
+metabolism    PASS  anticoag_nsaid          How does this drug metabolize?                            Ibuprofen (Metabolism) rel=1.0
+metabolism    PASS  single_simvastatin      Drugs that get metabolized by the liver?                  Simvastatin (Metabolism) rel=1.0
+metabolism    PASS  single_atorvastatin     Anything about its metabolic pathway?                     Atorvastatin (Metabolism) rel=1.0
+bleeding      PASS  anticoag_nsaid          Does this drug bleed risk?                                Apixaban + Ibuprofen (Pair interaction) rel=1.0
+bleeding      PASS  anticoag_nsaid          Bled while taking these — explanation?                    Apixaban (Toxicity) rel=1.0
+pair          PASS  anticoag_nsaid          Concerns about these drugs interacting?                   Apixaban + Ibuprofen (Pair interaction) rel=1.0
+pair          PASS  warfarin_amio           Any drug interactivity issues here?                       Amiodarone + Warfarin (Pair interaction) rel=1.0
+pair          PASS  ssri_nsaid              What combines poorly with these?                          Ibuprofen + Fluoxetine (Pair interaction) rel=1.0
+indication    PASS  single_metformin        What conditions does this treatment address?              Metformin (Indication) rel=1.0
+indication    PASS  single_lisinopril       Indicating uses of this medicine?                         Lisinopril (Indication) rel=1.0
+mechanism     PASS  single_warfarin         How is this drug's action mechanism?                      Warfarin (Mechanism) rel=1.0
+mechanism     PASS  single_fluoxetine       Mechanistic basis for its effects?                        Fluoxetine (Mechanism) rel=1.0
+adverse       PASS  single_acetaminophen    Toxicities to look out for?                               Acetaminophen (Toxicity) rel=1.0
+adverse       PASS  single_morphine         Adversely affecting events?                               Morphine (Toxicity) rel=1.0
+halflife      PASS  single_ibuprofen        How long is its absorption half life?                     Ibuprofen (Half-life) rel=1.0
+renal         PASS  single_apixaban         Affected by renal impairment?                             Apixaban (Toxicity) rel=1.0
+hepatic       PASS  single_atorvastatin     What about hepatic clearance?                             Atorvastatin (Elimination) rel=1.0
+pregnancy     PASS  single_warfarin         Teratogenically risky?                                    Warfarin (Toxicity) rel=1.0
+
+============================================================================================================================================
+Overall: 268/268  (100%)
+
+Category        Pass / Total
+  adverse       26 / 26  ##########################
+  bleeding      10 / 10  ##########
+  cardiac        4 / 4   ####
+  diabetes       2 / 2   ##
+  edge           4 / 4   ####
+  food          20 / 20  ####################
+  halflife      23 / 23  #######################
+  hepatic        5 / 5   #####
+  indication    43 / 43  ###########################################
+  mechanism     23 / 23  #######################
+  metabolism    29 / 29  #############################
+  pair          63 / 63  ###############################################################
+  pregnancy      8 / 8   ########
+  renal          6 / 6   ######
+  respiratory    1 / 1   #
+  serotonin      1 / 1   #
