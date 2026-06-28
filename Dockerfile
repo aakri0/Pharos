@@ -22,14 +22,23 @@ COPY static/ ./static/
 COPY start.sh ./
 RUN chmod +x start.sh
 
-# HF Spaces requires port 7860 and a non-root user.
-RUN useradd -m -u 1000 pharos
+# HF Spaces requires a non-root user. Create the user FIRST, pre-create the
+# data directory where start.sh will download the DB, then chown everything
+# so the non-root user can actually write to it. (The previous version of
+# this Dockerfile chown'd nothing, so the very first mkdir in start.sh
+# would die with "Permission denied" and the Space would go red.)
+RUN useradd -m -u 1000 pharos \
+    && mkdir -p /app/data /home/pharos/.cache \
+    && chown -R pharos:pharos /app /home/pharos/.cache
 USER pharos
 
 # Where the DB will live inside the container after start.sh fetches it.
+# HF_HOME points hf_hub_download's cache somewhere writable by the pharos
+# user (its own home).
 ENV PHAROS_DB=/app/data/drugbank_full.db \
     PHAROS_HOST=0.0.0.0 \
-    PORT=7860
+    PORT=7860 \
+    HF_HOME=/home/pharos/.cache/huggingface
 
 EXPOSE 7860
 
