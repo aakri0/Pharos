@@ -3,21 +3,36 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NeuroPharmDB Interaction Checker</title>
+    <title>Pharos — DrugBank explainable RAG</title>
     <link rel="stylesheet" href="/static/app.css">
   </head>
   <body>
     <div class="shell">
-      <header class="topbar glass">
-        <div>
-          <p class="eyebrow">DrugBank interaction database</p>
-          <h1>NeuroPharmDB</h1>
-        </div>
-        <div class="top-actions">
-          <div class="stats" aria-label="Database stats">
-            <span><strong id="drugCount">--</strong> drugs</span>
-            <span><strong id="interactionCount">--</strong> interactions</span>
+      <!-- ============================================================
+           Sticky top navigation. Brand on left, page links centred,
+           drug-count chip + theme toggle on the right.
+      ============================================================ -->
+      <header class="navbar glass" role="banner">
+        <a href="#/home" class="brand" data-nav>
+          <span class="brand-mark">🔬</span>
+          <div class="brand-text">
+            <span class="brand-name">Pharos</span>
+            <span class="brand-sub">DrugBank explainable RAG</span>
           </div>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#/home"   data-nav data-route="home">Home</a>
+          <a href="#/check"  data-nav data-route="check">Check</a>
+          <a href="#/rag"    data-nav data-route="rag">RAG</a>
+          <a href="#/browse" data-nav data-route="browse">Browse</a>
+          <a href="#/about"  data-nav data-route="about">About</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a href="#/check" class="nav-chip" id="navSelectionChip" title="Selected drugs">
+            <span id="navSelectionCount">0</span> selected
+          </a>
           <button class="icon-button" id="themeToggle" type="button" title="Toggle dark mode" aria-label="Toggle dark mode">
             <span class="theme-icon">☾</span>
           </button>
@@ -25,184 +40,333 @@
       </header>
 
       <main>
-        <section class="checker glass" aria-labelledby="checkerTitle">
-          <div class="section-heading">
-            <div>
-              <h2 id="checkerTitle">Interaction checker</h2>
-              <p>Add two or more medicines to check every interaction pair.</p>
-            </div>
-            <button class="ghost-button" id="addDrugButton" type="button">+ Add drug</button>
-          </div>
-
-          <div class="drug-list" id="drugRows"></div>
-
-          <div class="actions">
-            <button class="primary-button" id="checkButton" type="button">Check interactions</button>
-            <button class="ghost-button" id="exportReportButton" type="button">Export report</button>
-            <p id="selectionHint">Select at least two drugs.</p>
-          </div>
-
-          <div class="severity-filter" id="severityFilter" aria-label="Filter checked interaction severity">
-            <button class="filter-chip active" type="button" data-severity="all">All</button>
-            <button class="filter-chip" type="button" data-severity="high">High</button>
-            <button class="filter-chip" type="button" data-severity="moderate">Monitor</button>
-            <button class="filter-chip" type="button" data-severity="informational">Info</button>
-            <button class="filter-chip" type="button" data-severity="none">No listed</button>
-          </div>
-
-          <div class="result" id="resultPanel" aria-live="polite">
-            <div class="empty-state">
-              <span class="status-dot"></span>
-              <p>Your interaction results will appear here.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="audit glass" aria-labelledby="auditTitle">
-          <div class="section-heading">
-            <div>
-              <h2 id="auditTitle">Automated prescription audit</h2>
-              <p>Paste one medicine per line. The app will match drugs, fill the checker, and run the interaction audit.</p>
-            </div>
-            <button class="ghost-button" id="sampleAuditButton" type="button">Use sample</button>
-          </div>
-          <div class="audit-grid">
-            <label class="audit-input">
-              <span>Prescription list</span>
-              <textarea id="auditText" rows="7" placeholder="Warfarin&#10;Ibuprofen&#10;Apixaban"></textarea>
-              <div class="audit-suggestions" id="auditSuggestions" role="listbox"></div>
-            </label>
-            <div class="audit-panel">
-              <div class="audit-actions">
-                <button class="primary-button" id="runAuditButton" type="button">Run audit</button>
-                <button class="ghost-button" id="clearAuditButton" type="button">Clear</button>
+        <!-- ============================================================
+             HOME — hero + stats + three CTA cards
+        ============================================================ -->
+        <section class="page" data-page="home">
+          <div class="hero glass">
+            <div class="hero-text">
+              <p class="eyebrow">DrugBank explainable RAG</p>
+              <h1>Local-first drug interactions with cited evidence.</h1>
+              <p class="hero-lede">
+                Pharos checks every interaction pair, scores patient-context risk
+                with full evidence trails, and answers natural-language clinical
+                questions via a local NLP + BM25 pipeline. No external APIs, no
+                model downloads &mdash; the answer is always grounded in DrugBank.
+              </p>
+              <div class="hero-actions">
+                <a class="primary-button" href="#/check">Start an interaction check</a>
+                <a class="ghost-button"   href="#/rag">Open the RAG assistant</a>
               </div>
-              <div id="auditStatus" class="audit-status">
-                <p class="muted">No audit run yet.</p>
+            </div>
+            <div class="hero-stats glass-lite">
+              <div class="hero-stat">
+                <span class="hero-stat-num" id="heroDrugCount">--</span>
+                <span class="hero-stat-label">drugs</span>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" id="heroInteractionCount">--</span>
+                <span class="hero-stat-label">interactions</span>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" id="heroFoodCount">--</span>
+                <span class="hero-stat-label">food warnings</span>
               </div>
             </div>
           </div>
-        </section>
 
-        <section class="intelligence glass" id="intelligencePanel" aria-labelledby="intelligenceTitle">
-          <div class="section-heading">
-            <div>
-              <h2 id="intelligenceTitle">AI risk intelligence</h2>
-              <p>Run an interaction check to generate graph, patient-context, food, and mechanism insights.</p>
-            </div>
-            <span class="ai-badge">Local AI</span>
-          </div>
-          <div class="patient-context glass-lite">
-            <div>
-              <h3>Patient context</h3>
-              <p>Optional clinical context for explainable risk scoring.</p>
-            </div>
-            <div class="context-chips" id="patientContexts" aria-label="Patient context options">
-              <button class="context-chip" type="button" data-context="older_adult">Older adult</button>
-              <button class="context-chip" type="button" data-context="pregnancy">Pregnancy</button>
-              <button class="context-chip" type="button" data-context="kidney">Kidney disease</button>
-              <button class="context-chip" type="button" data-context="liver">Liver disease</button>
-              <button class="context-chip" type="button" data-context="bleeding">Bleeding risk</button>
-              <button class="context-chip" type="button" data-context="diabetes">Diabetes</button>
-              <button class="context-chip" type="button" data-context="hypertension">Hypertension</button>
-              <button class="context-chip" type="button" data-context="alcohol">Alcohol use</button>
-            </div>
-          </div>
-          <div class="intelligence-grid">
-            <article class="insight-card patient-risk-card">
-              <h3>Patient risk score</h3>
-              <div id="patientRisk" class="insight-empty">Select context chips, then run an interaction check.</div>
-            </article>
-            <article class="insight-card explain-card">
-              <h3>Explainable AI</h3>
-              <div id="explainableAi" class="insight-empty">Evidence trace will appear here after scoring.</div>
-            </article>
-            <article class="insight-card ai-card">
-              <h3>AI summary</h3>
-              <div id="aiSummary" class="insight-empty">No analysis yet.</div>
-            </article>
-            <article class="insight-card graph-card">
-              <h3>Interaction graph</h3>
-              <div id="interactionGraph" class="graph-empty">No graph yet.</div>
-            </article>
-            <article class="insight-card">
-              <h3>Food warnings</h3>
-              <div id="foodWarnings" class="insight-empty">No selected-drug food warnings yet.</div>
-            </article>
-            <article class="insight-card">
-              <h3>Shared biology</h3>
-              <div id="sharedSignals" class="insight-empty">No shared target, enzyme, or category signals yet.</div>
-            </article>
-            <article class="insight-card">
-              <h3>Alternative suggestions</h3>
-              <div id="alternativeDrugs" class="insight-empty">Select a drug to see related alternatives.</div>
-            </article>
+          <div class="feature-grid">
+            <a class="feature-card glass" href="#/check">
+              <h3>Check interactions</h3>
+              <p>Pick two or more drugs and audit every pair. Patient-context risk score with explainable evidence for bleeding, kidney, liver, pregnancy, and more.</p>
+              <span class="feature-cta">Go to checker &rarr;</span>
+            </a>
+            <a class="feature-card glass" href="#/rag">
+              <h3>Ask the RAG assistant</h3>
+              <p>Type a natural-language question &mdash; Porter stemming, ~175-entry synonym expansion, intent detection, BM25 retrieval, cited extractive answer.</p>
+              <span class="feature-cta">Open RAG &rarr;</span>
+            </a>
+            <a class="feature-card glass" href="#/browse">
+              <h3>Browse the database</h3>
+              <p>Search by name or synonym, open a drug profile, filter its interaction table, or jump to alternative-drug suggestions.</p>
+              <span class="feature-cta">Browse drugs &rarr;</span>
+            </a>
           </div>
         </section>
 
-        <section class="rag glass" id="ragPanel" aria-labelledby="ragTitle">
-          <div class="section-heading">
-            <div>
-              <h2 id="ragTitle">RAG knowledge assistant</h2>
-              <p>Ask a clinical question about your selected drugs. Answers are grounded in retrieved DrugBank text with citations.</p>
+        <!-- ============================================================
+             CHECK — interaction checker + audit + AI intelligence + details
+             (Every existing ID is preserved exactly.)
+        ============================================================ -->
+        <section class="page" data-page="check">
+          <section class="checker glass" aria-labelledby="checkerTitle">
+            <div class="section-heading">
+              <div>
+                <h2 id="checkerTitle">Interaction checker</h2>
+                <p>Add two or more medicines to check every interaction pair.</p>
+              </div>
+              <button class="ghost-button" id="addDrugButton" type="button">+ Add drug</button>
             </div>
-            <span class="ai-badge">Local RAG · BM25</span>
+
+            <div class="drug-list" id="drugRows"></div>
+
+            <div class="actions">
+              <button class="primary-button" id="checkButton" type="button">Check interactions</button>
+              <button class="ghost-button" id="exportReportButton" type="button">Export report</button>
+              <p id="selectionHint">Select at least two drugs.</p>
+            </div>
+
+            <div class="severity-filter" id="severityFilter" aria-label="Filter checked interaction severity">
+              <button class="filter-chip active" type="button" data-severity="all">All</button>
+              <button class="filter-chip" type="button" data-severity="high">High</button>
+              <button class="filter-chip" type="button" data-severity="moderate">Monitor</button>
+              <button class="filter-chip" type="button" data-severity="informational">Info</button>
+              <button class="filter-chip" type="button" data-severity="none">No listed</button>
+            </div>
+
+            <div class="result" id="resultPanel" aria-live="polite">
+              <div class="empty-state">
+                <span class="status-dot"></span>
+                <p>Your interaction results will appear here.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="audit glass" aria-labelledby="auditTitle">
+            <div class="section-heading">
+              <div>
+                <h2 id="auditTitle">Automated prescription audit</h2>
+                <p>Paste one medicine per line. The app will match drugs, fill the checker, and run the interaction audit.</p>
+              </div>
+              <button class="ghost-button" id="sampleAuditButton" type="button">Use sample</button>
+            </div>
+            <div class="audit-grid">
+              <label class="audit-input">
+                <span>Prescription list</span>
+                <textarea id="auditText" rows="7" placeholder="Warfarin&#10;Ibuprofen&#10;Apixaban"></textarea>
+                <div class="audit-suggestions" id="auditSuggestions" role="listbox"></div>
+              </label>
+              <div class="audit-panel">
+                <div class="audit-actions">
+                  <button class="primary-button" id="runAuditButton" type="button">Run audit</button>
+                  <button class="ghost-button" id="clearAuditButton" type="button">Clear</button>
+                </div>
+                <div id="auditStatus" class="audit-status">
+                  <p class="muted">No audit run yet.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="intelligence glass" id="intelligencePanel" aria-labelledby="intelligenceTitle">
+            <div class="section-heading">
+              <div>
+                <h2 id="intelligenceTitle">AI risk intelligence</h2>
+                <p>Run an interaction check to generate graph, patient-context, food, and mechanism insights.</p>
+              </div>
+              <span class="ai-badge">Local AI</span>
+            </div>
+            <div class="patient-context glass-lite">
+              <div>
+                <h3>Patient context</h3>
+                <p>Optional clinical context for explainable risk scoring.</p>
+              </div>
+              <div class="context-chips" id="patientContexts" aria-label="Patient context options">
+                <button class="context-chip" type="button" data-context="older_adult">Older adult</button>
+                <button class="context-chip" type="button" data-context="pregnancy">Pregnancy</button>
+                <button class="context-chip" type="button" data-context="kidney">Kidney disease</button>
+                <button class="context-chip" type="button" data-context="liver">Liver disease</button>
+                <button class="context-chip" type="button" data-context="bleeding">Bleeding risk</button>
+                <button class="context-chip" type="button" data-context="diabetes">Diabetes</button>
+                <button class="context-chip" type="button" data-context="hypertension">Hypertension</button>
+                <button class="context-chip" type="button" data-context="alcohol">Alcohol use</button>
+              </div>
+            </div>
+            <div class="intelligence-grid">
+              <article class="insight-card patient-risk-card">
+                <h3>Patient risk score</h3>
+                <div id="patientRisk" class="insight-empty">Select context chips, then run an interaction check.</div>
+              </article>
+              <article class="insight-card explain-card">
+                <h3>Explainable AI</h3>
+                <div id="explainableAi" class="insight-empty">Evidence trace will appear here after scoring.</div>
+              </article>
+              <article class="insight-card ai-card">
+                <h3>AI summary</h3>
+                <div id="aiSummary" class="insight-empty">No analysis yet.</div>
+              </article>
+              <article class="insight-card graph-card">
+                <h3>Interaction graph</h3>
+                <div id="interactionGraph" class="graph-empty">No graph yet.</div>
+              </article>
+              <article class="insight-card">
+                <h3>Food warnings</h3>
+                <div id="foodWarnings" class="insight-empty">No selected-drug food warnings yet.</div>
+              </article>
+              <article class="insight-card">
+                <h3>Shared biology</h3>
+                <div id="sharedSignals" class="insight-empty">No shared target, enzyme, or category signals yet.</div>
+              </article>
+              <article class="insight-card">
+                <h3>Alternative suggestions</h3>
+                <div id="alternativeDrugs" class="insight-empty">Select a drug to see related alternatives.</div>
+              </article>
+            </div>
+          </section>
+
+          <section class="details-grid" id="detailsGrid" aria-label="Selected drug details"></section>
+        </section>
+
+        <!-- ============================================================
+             RAG — full-width knowledge assistant
+        ============================================================ -->
+        <section class="page" data-page="rag">
+          <div class="page-nudge glass-lite" id="ragNudge" hidden>
+            <strong>No drugs selected yet.</strong>
+            <span>
+              The RAG assistant retrieves text for the drugs you've added on the
+              <a href="#/check">Check</a> page. Add at least one and come back.
+            </span>
           </div>
 
-          <aside class="rag-note glass-lite" role="note">
-            <span class="rag-note-tag">NOTE</span>
+          <section class="rag glass" id="ragPanel" aria-labelledby="ragTitle">
+            <div class="section-heading">
+              <div>
+                <h2 id="ragTitle">RAG knowledge assistant</h2>
+                <p>Ask a clinical question about your selected drugs. Answers are grounded in retrieved DrugBank text with citations.</p>
+              </div>
+              <span class="ai-badge">Local RAG · BM25</span>
+            </div>
+
+            <aside class="rag-note glass-lite" role="note">
+              <span class="rag-note-tag">NOTE</span>
+              <p>
+                This is where RAG (Retrieval-Augmented Generation) is being implemented. Your
+                question first goes through an NLP layer &mdash; Porter stemming, ~175-entry synonym
+                expansion, and intent detection &mdash; then a BM25 retriever scores every chunk of
+                DrugBank text for the selected drugs. The top passages are stitched into a cited,
+                extractive answer. No external API, all local.
+              </p>
+            </aside>
+
+            <div class="rag-controls glass-lite">
+              <label class="rag-input">
+                <span>Your question</span>
+                <textarea id="ragQuery" rows="2" placeholder="e.g. Which of these drugs increases bleeding risk and why?"></textarea>
+              </label>
+              <div class="rag-suggestions" id="ragSuggestions" aria-label="Suggested questions">
+                <button class="context-chip" type="button" data-question="Which of these drugs raises bleeding risk and what is the mechanism?">Bleeding risk mechanism</button>
+                <button class="context-chip" type="button" data-question="What renal or hepatic precautions apply to these drugs?">Renal/hepatic precautions</button>
+                <button class="context-chip" type="button" data-question="What food or alcohol interactions should the patient avoid?">Food &amp; alcohol</button>
+                <button class="context-chip" type="button" data-question="What CYP enzymes or metabolism overlap exists between these drugs?">CYP &amp; metabolism overlap</button>
+                <button class="context-chip" type="button" data-question="What pregnancy or teratogenic warnings apply?">Pregnancy warnings</button>
+              </div>
+              <div class="rag-actions">
+                <p class="rag-hint muted">Tip: ⌘/Ctrl + Enter to submit.</p>
+                <div class="rag-buttons">
+                  <button class="ghost-button" id="ragClear" type="button">Clear</button>
+                  <button class="primary-button" id="ragSubmit" type="button">Ask RAG</button>
+                </div>
+              </div>
+            </div>
+
+            <article class="insight-card rag-result-card">
+              <h3>Answer</h3>
+              <div id="ragResult" class="insight-empty" aria-live="polite">
+                Select drugs above, then ask a question. The retriever indexes the selected drugs' DrugBank fields on every query.
+              </div>
+            </article>
+          </section>
+        </section>
+
+        <!-- ============================================================
+             BROWSE — pick a selected drug and explore its interactions
+        ============================================================ -->
+        <section class="page" data-page="browse">
+          <div class="page-nudge glass-lite" id="browseNudge" hidden>
+            <strong>No drugs selected yet.</strong>
+            <span>
+              Browse mode shows the full interaction table for a drug in your
+              selection. Add one on the <a href="#/check">Check</a> page first.
+            </span>
+          </div>
+
+          <section class="browse glass" aria-labelledby="browseTitle">
+            <div class="section-heading">
+              <div>
+                <h2 id="browseTitle">Browse interactions</h2>
+                <p>Select a drug from your list, then filter its interaction table.</p>
+              </div>
+              <input id="browseFilter" type="search" placeholder="Filter interaction list">
+            </div>
+            <div class="browse-tabs" id="browseTabs" role="tablist"></div>
+            <div id="interactionList" class="interaction-list">
+              <p class="muted">No drug selected yet.</p>
+            </div>
+          </section>
+        </section>
+
+        <!-- ============================================================
+             ABOUT — methodology, disclaimer, links
+        ============================================================ -->
+        <section class="page" data-page="about">
+          <section class="about glass">
+            <h2>About Pharos</h2>
             <p>
-              This is where RAG (Retrieval-Augmented Generation) is being implemented. Your
-              question first goes through an NLP layer — Porter stemming, ~175-entry synonym
-              expansion, and intent detection — then a BM25 retriever scores every chunk of
-              DrugBank text for the selected drugs. The top passages are stitched into a cited,
-              extractive answer. No external API, all local.
+              Pharos is a local-first drug-drug interaction tool powered by a
+              DrugBank SQLite database. It checks every selected pair, audits
+              prescription lists, scores patient-context risk with explainable
+              evidence trails, and answers natural-language questions through a
+              local NLP + BM25 retrieval pipeline.
             </p>
-          </aside>
 
-          <div class="rag-controls glass-lite">
-            <label class="rag-input">
-              <span>Your question</span>
-              <textarea id="ragQuery" rows="2" placeholder="e.g. Which of these drugs increases bleeding risk and why?"></textarea>
-            </label>
-            <div class="rag-suggestions" id="ragSuggestions" aria-label="Suggested questions">
-              <button class="context-chip" type="button" data-question="Which of these drugs raises bleeding risk and what is the mechanism?">Bleeding risk mechanism</button>
-              <button class="context-chip" type="button" data-question="What renal or hepatic precautions apply to these drugs?">Renal/hepatic precautions</button>
-              <button class="context-chip" type="button" data-question="What food or alcohol interactions should the patient avoid?">Food &amp; alcohol</button>
-              <button class="context-chip" type="button" data-question="What CYP enzymes or metabolism overlap exists between these drugs?">CYP &amp; metabolism overlap</button>
-              <button class="context-chip" type="button" data-question="What pregnancy or teratogenic warnings apply?">Pregnancy warnings</button>
-            </div>
-            <div class="rag-actions">
-              <p class="rag-hint muted">Tip: ⌘/Ctrl + Enter to submit.</p>
-              <div class="rag-buttons">
-                <button class="ghost-button" id="ragClear" type="button">Clear</button>
-                <button class="primary-button" id="ragSubmit" type="button">Ask RAG</button>
-              </div>
-            </div>
-          </div>
+            <div class="about-grid">
+              <article class="about-card glass-lite">
+                <h3>The NLP layer</h3>
+                <ul>
+                  <li><strong>Porter stemmer</strong> &mdash; folds <code>metabolize</code>, <code>metabolized</code>, <code>metabolic</code>, <code>metabolism</code> into one stem.</li>
+                  <li><strong>~175-entry synonym lexicon</strong> &mdash; bridges lay vocabulary (<em>blood thinner</em>, <em>painkiller</em>, <em>sleepy</em>) to DrugBank's clinical terms.</li>
+                  <li><strong>Intent detection</strong> &mdash; recognises pair-interaction, adverse-event, and CYP intents and injects domain vocabulary into the BM25 query.</li>
+                  <li><strong>Pair-intent guarantee</strong> &mdash; ensures the best <em>Pair interaction</em> chunk lands at position #1 when the user asks about co-administration.</li>
+                  <li><strong>Description fallback</strong> &mdash; even if retrieval misses, you always get a useful citation.</li>
+                </ul>
+              </article>
 
-          <article class="insight-card rag-result-card">
-            <h3>Answer</h3>
-            <div id="ragResult" class="insight-empty" aria-live="polite">
-              Select drugs above, then ask a question. The retriever indexes the selected drugs' DrugBank fields on every query.
-            </div>
-          </article>
-        </section>
+              <article class="about-card glass-lite">
+                <h3>The explainable risk scorer</h3>
+                <ul>
+                  <li>Scans DrugBank fields (description, indication, pharmacodynamics, mechanism, toxicity, metabolism, absorption, half-life, elimination, food + pair interactions).</li>
+                  <li>Matches eight patient contexts: <em>older adult, pregnancy, kidney disease, liver disease, bleeding risk, diabetes, hypertension, alcohol use.</em></li>
+                  <li>Boosts score with high-attention language: <code>contraindicated</code>, <code>fatal</code>, <code>severe</code>, <code>toxicity</code>, <code>increased risk</code>.</li>
+                  <li>Every signal includes the matched terms, source field, and a citable evidence excerpt &mdash; nothing is a black box.</li>
+                </ul>
+              </article>
 
-        <section class="details-grid" id="detailsGrid" aria-label="Selected drug details"></section>
+              <article class="about-card glass-lite">
+                <h3>Important disclaimer</h3>
+                <p>
+                  Pharos is a research and educational decision-support tool. It is
+                  not a medical device, does not provide medical advice, and should
+                  not be used as a substitute for professional clinical judgment.
+                </p>
+                <p>
+                  DrugBank content requires appropriate licensing. The database is
+                  obtained separately under your own DrugBank agreement and is
+                  never redistributed by this project.
+                </p>
+              </article>
 
-        <section class="browse glass" aria-labelledby="browseTitle">
-          <div class="section-heading">
-            <div>
-              <h2 id="browseTitle">Browse interactions</h2>
-              <p>Select a drug from your list, then filter its interaction table.</p>
+              <article class="about-card glass-lite">
+                <h3>Stack</h3>
+                <ul>
+                  <li>Python standard library HTTP server</li>
+                  <li>SQLite DrugBank export</li>
+                  <li>Vanilla HTML / CSS / JavaScript (no build step)</li>
+                  <li>Source: <a href="https://github.com/aakri0/Pharos" target="_blank" rel="noopener">github.com/aakri0/Pharos</a></li>
+                </ul>
+              </article>
             </div>
-            <input id="browseFilter" type="search" placeholder="Filter interaction list">
-          </div>
-          <div class="browse-tabs" id="browseTabs" role="tablist"></div>
-          <div id="interactionList" class="interaction-list">
-            <p class="muted">No drug selected yet.</p>
-          </div>
+          </section>
         </section>
       </main>
     </div>

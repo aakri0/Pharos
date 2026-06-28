@@ -13,8 +13,14 @@ const state = {
 };
 
 const els = {
-  drugCount: document.querySelector("#drugCount"),
-  interactionCount: document.querySelector("#interactionCount"),
+  // Hero stats (Home page) + navbar selection chip
+  heroDrugCount: document.querySelector("#heroDrugCount"),
+  heroInteractionCount: document.querySelector("#heroInteractionCount"),
+  heroFoodCount: document.querySelector("#heroFoodCount"),
+  navSelectionCount: document.querySelector("#navSelectionCount"),
+  navSelectionChip: document.querySelector("#navSelectionChip"),
+  ragNudge: document.querySelector("#ragNudge"),
+  browseNudge: document.querySelector("#browseNudge"),
   themeToggle: document.querySelector("#themeToggle"),
   drugRows: document.querySelector("#drugRows"),
   addDrugButton: document.querySelector("#addDrugButton"),
@@ -160,8 +166,9 @@ async function api(path) {
 
 async function loadStats() {
   const stats = await api("/api/stats");
-  els.drugCount.textContent = fmt.format(stats.drugs);
-  els.interactionCount.textContent = fmt.format(stats.interactions);
+  if (els.heroDrugCount)        els.heroDrugCount.textContent        = fmt.format(stats.drugs);
+  if (els.heroInteractionCount) els.heroInteractionCount.textContent = fmt.format(stats.interactions);
+  if (els.heroFoodCount)        els.heroFoodCount.textContent        = fmt.format(stats.foodInteractions);
 }
 
 function selectedRows() {
@@ -386,6 +393,8 @@ function updateSelectedState(message = "") {
   } else {
     els.selectionHint.textContent = "Select at least two drugs.";
   }
+  // Keep the navbar chip + cross-page nudges in sync with the selection.
+  if (typeof updateSelectionChip === "function") updateSelectionChip();
   if (count < 2) {
     state.lastCheckData = null;
     resetInsights();
@@ -1422,6 +1431,54 @@ applyTheme(savedTheme || (prefersDark ? "dark" : "light"));
 addDrugRow();
 addDrugRow();
 loadStats().catch(() => {
-  els.drugCount.textContent = "N/A";
-  els.interactionCount.textContent = "N/A";
+  if (els.heroDrugCount)        els.heroDrugCount.textContent        = "N/A";
+  if (els.heroInteractionCount) els.heroInteractionCount.textContent = "N/A";
+  if (els.heroFoodCount)        els.heroFoodCount.textContent        = "N/A";
 });
+
+// ---------------------------------------------------------------------------
+// Hash-based router. All five pages share one HTML document; the router just
+// flips which [data-page] section is visible. No build step, no framework.
+// ---------------------------------------------------------------------------
+const VALID_PAGES = ["home", "check", "rag", "browse", "about"];
+
+function currentRoute() {
+  const raw = (window.location.hash || "").replace(/^#\/?/, "").trim().toLowerCase();
+  return VALID_PAGES.includes(raw) ? raw : "home";
+}
+
+function updateSelectionChip() {
+  const n = selectedRows().length;
+  if (els.navSelectionCount) els.navSelectionCount.textContent = String(n);
+  if (els.navSelectionChip)  els.navSelectionChip.classList.toggle("active", n > 0);
+  // Nudges: visible only when a downstream page has nothing to work with.
+  if (els.ragNudge)    els.ragNudge.hidden    = n > 0;
+  if (els.browseNudge) els.browseNudge.hidden = n > 0;
+}
+
+function showPage(name) {
+  document.querySelectorAll("[data-page]").forEach((section) => {
+    section.classList.toggle("active", section.dataset.page === name);
+  });
+  document.querySelectorAll("[data-nav][data-route]").forEach((link) => {
+    link.classList.toggle("active", link.dataset.route === name);
+  });
+  // Page-specific freshening that's cheap to re-run on every navigation.
+  if (name === "browse") {
+    renderBrowseTabs();
+    loadInteractionList().catch(() => {});
+  }
+  if (name === "rag" || name === "browse") {
+    updateSelectionChip();
+  }
+  // Scroll to top on route change so the user lands at the page header.
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function handleRoute() {
+  showPage(currentRoute());
+}
+
+window.addEventListener("hashchange", handleRoute);
+handleRoute();
+updateSelectionChip();
