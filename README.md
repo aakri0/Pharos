@@ -1,3 +1,14 @@
+---
+title: Pharos
+emoji: 🔬
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+license: mit
+---
+
 # NeuroPharmDB
 
 A local-first drug-drug interaction web app powered by a DrugBank SQLite database. NeuroPharmDB lets users search medicines, audit prescription lists, inspect interaction risk, and generate explainable AI-style patient-context insights without sending data to any external API.
