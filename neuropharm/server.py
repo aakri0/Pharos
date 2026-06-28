@@ -152,6 +152,16 @@ class NeuroPharmHandler(BaseHTTPRequestHandler):
     def send_static(self, filename: str) -> None:
         safe_path = (STATIC_DIR / filename).resolve()
         if not str(safe_path).startswith(str(STATIC_DIR.resolve())) or not safe_path.is_file():
+            # config.js is optional — production deployments use it to inject
+            # PHAROS_API_BASE / PHAROS_API_KEY, but local dev shouldn't see a
+            # 404 in DevTools just because the file isn't there.
+            if filename == "config.js":
+                self.send_response(200)
+                self.send_header("Content-Type", "application/javascript; charset=utf-8")
+                self.send_header("Content-Length", "0")
+                self._emit_cors_headers()
+                self.end_headers()
+                return
             self.send_error(404, "Static file not found")
             return
 
