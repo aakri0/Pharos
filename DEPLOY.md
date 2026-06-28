@@ -34,12 +34,38 @@ All three live on free tiers, no credit card required.
 1. <https://huggingface.co/new-space>
 2. Owner: your username · Space name: e.g. `pharos` · License: `mit` · **SDK: Docker** · Visibility: **Public** (the API key gates it).
 3. The Space gets its own git repo, e.g. `https://huggingface.co/spaces/<YOU>/pharos`.
-4. Push this codebase to it (the `Dockerfile`, `start.sh`, `neuropharm/`, `static/`, `app.py` are all the Space needs):
+4. Push this codebase to it (the `Dockerfile`, `start.sh`, `neuropharm/`, `static/`, `app.py` are all the Space needs).
+
+   HuggingFace deprecated password-based git auth, so use **either** SSH **or** a write-token through the OS keychain — pick whichever matches your usual flow.
+
+   **SSH (recommended if you already push to GitHub over SSH):**
 
    ```bash
+   # one-time: add your public key to HF
+   cat ~/.ssh/id_ed25519.pub | pbcopy   # or id_rsa.pub
+   # paste at https://huggingface.co/settings/keys → "Add SSH key"
+
+   cd /path/to/Pharos
+   git remote add hf git@hf.co:spaces/<YOU>/pharos
+   git push hf main
+   ```
+
+   Note the HF SSH URL format is `git@hf.co:spaces/<user>/<space>` — `hf.co` (not `huggingface.co`) and `spaces/` is a path segment.
+
+   **Write token through OS keychain (HTTPS):**
+
+   ```bash
+   # Create a WRITE token at https://huggingface.co/settings/tokens
+   # (a Read token will NOT work for git push)
+   git config --global credential.helper osxkeychain   # macOS
+   # or: git config --global credential.helper libsecret   # Linux GNOME
+   # or: git config --global credential.helper manager     # Windows
+
    cd /path/to/Pharos
    git remote add hf https://huggingface.co/spaces/<YOU>/pharos
    git push hf main
+   # username = your HF username, password = paste the write token
+   # Future pushes skip the prompt — keychain remembers it.
    ```
 
 5. The Space needs a **README.md with YAML frontmatter** so HF knows it's a Docker Space. Easiest path: open the Space's **Files** tab on the web, edit `README.md`, and replace its content with:
