@@ -28,20 +28,35 @@ if [[ ! -f "$PHAROS_DB" ]]; then
 
   echo "Fetching $PHAROS_DB_FILENAME from private dataset $PHAROS_DB_REPO ..."
   python3 - <<'PY'
-import os, shutil
+import os, sys
 from huggingface_hub import hf_hub_download
 
+target = os.environ["PHAROS_DB"]
+target_dir = os.path.dirname(target)
+filename = os.environ["PHAROS_DB_FILENAME"]
+
+# Download directly to the target directory instead of pulling into the
+# default HF cache and then shutil.move'ing. local_dir writes the actual
+# blob file in place (no symlink, no Xet stub) which avoids the silent
+# "moved an empty cache stub" failure the older shuffle was prone to on
+# Xet-backed datasets.
 path = hf_hub_download(
     repo_id=os.environ["PHAROS_DB_REPO"],
-    filename=os.environ["PHAROS_DB_FILENAME"],
+    filename=filename,
     repo_type="dataset",
     token=os.environ["HF_TOKEN"],
+    local_dir=target_dir,
 )
-target = os.environ["PHAROS_DB"]
-# hf_hub_download returns a path inside the HF cache. Move (not copy) so we
-# don't keep two copies in the container's ephemeral disk.
-shutil.move(path, target)
-print(f"Downloaded {target} ({os.path.getsize(target) / (1024*1024):,.1f} MB)")
+
+if not os.path.exists(target) or os.path.getsize(target) == 0:
+    sys.exit(
+        f"ERROR: hf_hub_download returned {path!r} but {target} is missing "
+        f"or empty. Likely cause: HF Xet support not installed in this "
+        f"image — confirm Dockerfile installs huggingface_hub[hf_xet]>=0.27."
+    )
+
+size_mb = os.path.getsize(target) / (1024 * 1024)
+print(f"Downloaded {target} ({size_mb:,.1f} MB)")
 PY
 fi
 

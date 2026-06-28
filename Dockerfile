@@ -9,9 +9,14 @@
 
 FROM python:3.11-slim
 
-# huggingface_hub is the only third-party install — purely for fetching
-# the DB from the private Dataset on container start.
-RUN pip install --no-cache-dir huggingface_hub==0.24.7
+# huggingface_hub is the only third-party install — purely for fetching the
+# DB from the private Dataset on container start.
+#
+# The [hf_xet] extra is required because HF rolled out Xet (chunked CAS)
+# storage in 2024+ and large files uploaded via the modern web UI live
+# there. Without hf_xet the download silently returns a stub path and the
+# move into /app/data succeeds against an empty file.
+RUN pip install --no-cache-dir 'huggingface_hub[hf_xet]>=0.27.0'
 
 WORKDIR /app
 
