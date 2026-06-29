@@ -2145,3 +2145,70 @@ input:focus,
   line-height: 1;
 }
 
+
+/* =====================================================================
+   Site footer — rendered once at the bottom of .shell, on every page
+   ===================================================================== */
+.site-footer {
+  margin-top: 28px;
+  padding: 18px 20px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.86rem;
+}
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.footer-brand strong { color: var(--text); }
+.footer-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--accent) 14%, var(--panel-strong));
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--line));
+  font-size: 0.95rem;
+}
+.footer-links {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.footer-links a {
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 600;
+}
+.footer-links a:hover { color: var(--accent); }
+.footer-badge {
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel-strong));
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.footer-disclaimer {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 80ch;
+}
